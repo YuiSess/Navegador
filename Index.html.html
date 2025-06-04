@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>657 Client Chat</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.5s ease;
+    }
+
+    .admin-button {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: #333;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    .admin-panel {
+      display: none;
+      position: fixed;
+      top: 50px;
+      right: 10px;
+      background-color: white;
+      border: 1px solid #ccc;
+      padding: 10px;
+      z-index: 998;
+    }
+
+    .chat-container {
+      display: flex;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .chat-box {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .chat-message {
+      margin-bottom: 10px;
+    }
+
+    .assistant-box {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      border-left: 1px solid #ccc;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      height: 100vh;
+    }
+
+    .assistant-chat {
+      height: 70vh;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .assistant-input {
+      display: flex;
+      width: 100%;
+    }
+
+    .assistant-input input {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .assistant-input button {
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .command-bar {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: flex;
+    }
+
+    .command-bar input {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body id="body">
+  <button class="admin-button" onclick="toggleAdmin()">ADMIN</button>
+  <div class="admin-panel" id="adminPanel">
+    <ul>
+      <li><a href="https://www.roblox.com/pt/catalog/3822880197/International-Fedora-Ukraine" target="_blank">Roblox</a></li>
+      <li><a href="https://www.youtube.com/" target="_blank">YouTube</a></li>
+      <li><a href="https://www.tiktok.com/@netinhodoceara?lang=en" target="_blank">TikTok</a></li>
+      <li><a href="https://www.kwai.com/" target="_blank">Kwai</a></li>
+      <li><a href="https://store.steampowered.com/" target="_blank">Steam</a></li>
+      <li><a href="https://steamunlocked.net/" target="_blank">SteamUnlocked</a></li>
+    </ul>
+  </div>
+  <div class="chat-container">
+    <div class="chat-box" id="chatBox">
+      <!-- Mensagens de bot serão inseridas aqui -->
+    </div>
+    <div class="assistant-box">
+      <h3>657 Client</h3>
+      <div class="assistant-chat" id="assistantChat"></div>
+      <div class="assistant-input">
+        <input type="text" id="assistantInput" placeholder="Fale com o 657 Client" />
+        <button onclick="sendToAssistant()">Enviar</button>
+      </div>
+    </div>
+  </div>
+  <div class="command-bar">
+    <input type="text" id="commandInput" placeholder="Digite um comando como /flpcalvo ou /reset" onkeydown="handleCommand(event)" />
+  </div>
+
+  <script>
+    const defaultBg = 'url("/mnt/data/Frutiger aero city 🌿🫧💦.jpeg")';
+    const calvoBg = 'url("/mnt/data/transferir.jpeg")';
+    const body = document.getElementById('body');
+    body.style.backgroundImage = defaultBg;
+
+    function handleCommand(event) {
+      if (event.key === "Enter") {
+        const value = event.target.value.trim();
+        if (value === "/flpcalvo") {
+          body.style.backgroundImage = calvoBg;
+        } else if (value === "/reset") {
+          body.style.backgroundImage = defaultBg;
+        }
+        event.target.value = "";
+      }
+    }
+
+    function sendToAssistant() {
+      const input = document.getElementById('assistantInput');
+      const chat = document.getElementById('assistantChat');
+      const msg = input.value.trim();
+      if (msg) {
+        chat.innerHTML += `<div><strong>Você:</strong> ${msg}</div>`;
+        chat.innerHTML += `<div><strong>657 Client:</strong> Isso é interessante! Você quer um script ou ajuda com algo específico?</div>`;
+        input.value = "";
+        chat.scrollTop = chat.scrollHeight;
+      }
+    }
+
+    const botNames = Array.from({ length: 12000 }, (_, i) => `Bot${i + 1}`);
+    const botMessages = [
+      "Olá, tudo bem?",
+      "Como está o tempo aí?",
+      "Você viu as notícias de hoje?",
+      "O que acha de programar algo?",
+      "Eu adoro falar sobre IA!",
+      "Vamos conversar?",
+      "O mundo está mudando rápido!",
+      "Você gosta de música?",
+      "Tenho lido muito ultimamente.",
+      "Qual sua linguagem de programação favorita?",
+      "Você já tentou criar um jogo?",
+      "Vamos desenvolver juntos?",
+      "Adoro robôs!",
+      "Você gosta de matemática?",
+      "Ciência é incrível!"
+    ];
+
+    const chatBox = document.getElementById('chatBox');
+    let botIndex = 0;
+
+    function botChat() {
+      if (botIndex >= botNames.length) return;
+      const bot = botNames[botIndex];
+      const msg = botMessages[Math.floor(Math.random() * botMessages.length)];
+      chatBox.innerHTML += `<div class='chat-message'><strong>${bot}:</strong> ${msg}</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+      botIndex++;
+      setTimeout(botChat, 5);
+    }
+
+    botChat();
+
+    function toggleAdmin() {
+      const panel = document.getElementById('adminPanel');
+      panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>
